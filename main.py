@@ -1,7 +1,7 @@
 from algoritms import make_graph, dijkstra, bellman_ford, negation_graph, shortest_path
 from file import input_file, output, input_with_cordinates
 from tree import make_tree
-from cordinates import find_min_max_xy
+from cordinates import find_min_max_xy, count_distance
 
 def find_longest(dc):
     max_ = 0
@@ -37,4 +37,6 @@ def prepare_graph(center):
     return graph, tree
 
 a, b, c = input_with_cordinates()
-print(find_min_max_xy(c))
+x1, x2, y1, y2 = find_min_max_xy(c)
+distance = count_distance(x1, y1, x2, y1)
+print(distance)
