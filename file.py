@@ -1,4 +1,4 @@
-def load(name="input"):
+def input_file(name="input"):
     with open(name) as file:
         n_crosses = None
         n_streets = None
@@ -11,3 +11,9 @@ def load(name="input"):
                 l[2] = int(l[2])
                 graph.append(l)
         return graph, n_streets
+
+def output(longest, path, file="output.txt"):
+    with open(file, "w") as file:
+        file.write(longest + "\n")
+        for line in path:
+            file.write(line + "\n")
