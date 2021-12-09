@@ -1,5 +1,11 @@
 from re import sub
 
+graph = [
+    ("0", "1", 2),
+    ("1", "2", 5),
+    ("2", "3", 4),
+    ("2", "0", 11)
+]
 
 def print_path_length(graph, data):
     length = 0

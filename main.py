@@ -1,8 +1,9 @@
 from algoritms import make_graph, dijkstra, bellman_ford, negation_graph, shortest_path
 from file import input_file, output, input_with_cordinates
 from tree import make_tree
-from cordinates import find_min_max_xy, count_distance
-from cut_graph import del_node
+from cordinates import find_min_max_xy, count_distance, x, y
+from cut_graph import del_node, cut_graph
+from test_data import graph
 
 def find_longest(dc):
     max_ = 0
@@ -37,14 +38,18 @@ def prepare_graph(center):
     tree = make_tree(graph, center)
     return graph, tree
 
-#graph, tree = prepare_graph("2000")
-graph = [
-    ("0", "1", 2),
-    ("1", "2", 5),
-    ("2", "3", 4),
-    ("2", "0", 11)
-]
-graph = make_graph(graph, 4)
+"""
+old_graph, n, cordinates = input_with_cordinates()
+graph = cut_graph(old_graph, cordinates, x["min"], x["min"]+0.005)
+graph = make_graph(graph)
 print(graph)
-graph = del_node("0", graph)
-print(graph)
+print(len(old_graph), len(graph))
+"""
+
+"""
+graph, tree = prepare_graph("35000")
+tree = negation_graph(tree)
+for i in range(0, 60000, 1000):
+    path, j = dijkstra(tree, str(i))
+    print(find_longest(path))
+"""

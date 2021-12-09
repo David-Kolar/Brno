@@ -77,9 +77,15 @@ def negation_graph(graph):
 
 def make_graph(paths=(), n=0):
     graph = dict()
-    for i in range(n):
-        graph[str(i)] = {str(i): 0}
     for a, b, distance in paths:
+        try:
+            graph[a]
+        except:
+            graph[a] = {a: 0}
+        try:
+            graph[b]
+        except:
+            graph[b] = {b: 0}
         graph[a].update({b: distance})
         graph[b].update({a: distance})
     return graph
