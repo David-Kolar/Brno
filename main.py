@@ -4,6 +4,8 @@ from tree import make_tree
 from cordinates import find_min_max_xy, count_distance, x, y
 from cut_graph import del_node, cut_graph
 from test_data import graph
+from random import randint
+from numpy import arange
 
 def find_longest(dc):
     max_ = 0
@@ -32,20 +34,55 @@ def make_path(start, tree):
     dis, pred = dijkstra(neg_tree, start)
     return dis
 
+def random_node(graph):
+    nodes = list(graph.keys())
+    #n = randint(0, len(nodes) - 1)
+    return nodes[0]
+
+
 def prepare_graph(center):
     graph, n = input_file()
     graph = make_graph(graph, n)
     tree = make_tree(graph, center)
     return graph, tree
 
-"""
 old_graph, n, cordinates = input_with_cordinates()
-graph = cut_graph(old_graph, cordinates, x["min"], x["min"]+0.005)
-graph = make_graph(graph)
-print(graph)
-print(len(old_graph), len(graph))
+x_dif = 0.008
+y_dif = 0.008
+s = 0
+l = 0
+for x_ in arange(x["min"], x["max"], x_dif):
+    x_graph = cut_graph(old_graph, cordinates, x_, x_+x_dif)
+    for y_ in arange(y["min"], y["max"], y_dif):
+        o = 0
+        y_graph = cut_graph(x_graph, cordinates, y_, y_ + y_dif, "y")
+        if (len(y_graph) > 0):
+            graph = make_graph(y_graph)
+            tree = make_tree(graph, random_node(graph))
+            tree = negation_graph(tree)
+            dj, pr = dijkstra(tree, list(tree.keys())[-1])
+            o = find_longest(dj)[1]
+            l += len(graph)
+        s += o
+print(l, s)
 """
-
+#rezani na pruhy po ose x, nalezene maximum 580000
+dif = 0.034
+old_graph, n, cordinates = input_with_cordinates()
+s = 0
+l = 0
+for dif in range(3, 100):
+    dif = dif/1000
+    s = 0
+    for i in arange(y["min"], y["max"], dif):
+        graph = cut_graph(old_graph, cordinates, i, i+dif, "y")
+        graph = make_graph(graph)
+        tree = make_tree(graph, random_node(graph))
+        tree = negation_graph(tree)
+        dj, pr = dijkstra(tree, list(tree.keys())[-1])
+        s += find_longest(dj)[1]
+    print(dif, s)
+"""
 """
 graph, tree = prepare_graph("35000")
 tree = negation_graph(tree)
