@@ -28,7 +28,7 @@ def check_sorted_dict(graph, tree, ls):
     return new
 
 
-def make_tree(graph={}, start="0"):
+def make_tree(graph={}, start=None):
     first_node = start
     tree = dict()
     queue = deque()
