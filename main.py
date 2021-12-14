@@ -7,6 +7,11 @@ from test_data import graph
 from random import randint
 from numpy import arange
 
+def random_node(graph):
+    nodes = list(graph.keys())
+    n = randint(0, len(nodes) - 1)
+    return nodes[n]
+
 def find_longest(dc):
     max_ = 0
     max_key = None
@@ -34,9 +39,9 @@ def make_path(start, tree):
     dis, pred = dijkstra(neg_tree, start)
     return dis
 
-def random_node(graph):
+def first_node(graph):
     nodes = list(graph.keys())
-    #n = randint(0, len(nodes) - 1)
+    n = randint(0, len(nodes) - 1)
     return nodes[0]
 
 
@@ -48,8 +53,8 @@ def prepare_graph(center):
 
 old_graph, n, cordinates = input_with_cordinates()
 graph = make_graph(old_graph)
-x_dif = 0.008
-y_dif = 0.008
+x_dif = 0.07
+y_dif = 0.07
 i = 0
 j = 0
 data = list()
@@ -61,7 +66,7 @@ for x_ in arange(x["min"], x["max"], x_dif):
         y_graph = cut_graph(x_graph, cordinates, y_, y_ + y_dif, "y")
         y_graph = make_graph(y_graph)
         if (len(y_graph) > 0):
-            y_graph = make_tree(y_graph, random_node(y_graph))
+            #y_graph = make_tree(y_graph, first_node(y_graph))
             pass
         data[i].append(0)
         data[i][j] = y_graph
@@ -100,9 +105,13 @@ while(detect_end(key_x, key_y, x_velocity, y_velocity, border)):
                         data[nx][ny][key2].update({key: graph[key][key2]})
     new_tree.update(data[key_x][key_y])
     key_x, key_y, x_velocity, y_velocity = next_node(key_x, key_y, x_velocity, y_velocity, border)
+new_tree = make_tree(new_tree, first_node(new_tree))
 new_tree = negation_graph(new_tree)
-dis, pred = dijkstra(new_tree, random_node(new_tree))
-print(find_longest(dis))
+f = first_node(new_tree)
+dis, pred = dijkstra(new_tree, f)
+n, l = find_longest(dis)
+x, path = shortest_path(new_tree, f, n)
+output(str(l), path)
 """
 #rezani na pruhy po ose x, nalezene maximum 580000
 dif = 0.034

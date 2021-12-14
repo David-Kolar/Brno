@@ -28,7 +28,9 @@ def check_sorted_dict(graph, tree, ls):
     return new
 
 
-def make_tree(graph={}, start=None):
+def make_tree(graph={}, start=None, old_graph=None):
+    if not(old_graph):
+        old_graph = graph
     first_node = start
     tree = dict()
     queue = deque()
@@ -36,11 +38,15 @@ def make_tree(graph={}, start=None):
     hash_queue = dict()
     while (queue):
         node, source = queue.pop()
-        if (check_node(node, graph, tree, source)):
+        if (check_node(node, old_graph, tree, source)):
             try:
                 tree[source].update()
             except:
                 tree[source] = {}
+            try:
+                tree[node].update()
+            except:
+                tree[node] = {}
             tree[source].update({node: graph[node][source]})
             tree[node] = {source: graph[node][source]}
             sorted_dict = {k: v for k, v in sorted(graph[node].items(), key=lambda item: item[1])}
